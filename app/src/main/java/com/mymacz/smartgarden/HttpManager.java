@@ -10,6 +10,7 @@ public class HttpManager {
 
     private static HttpManager instance;
     private MicrogearAPI micApi;
+    private TopicAPI topicAPI;
 
     public static HttpManager getInstance() {
         if (instance == null)
@@ -24,9 +25,21 @@ public class HttpManager {
                 .build();
 
         micApi = retrofit.create(MicrogearAPI.class);
+
+        Retrofit topicCall = new Retrofit.Builder()
+                .baseUrl("https://api.netpie.io/topic/MacSmartHome/smarthome/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        topicAPI = topicCall.create(TopicAPI.class);
+
     }
 
     public MicrogearAPI getMicApi() {
         return micApi;
+    }
+
+    public TopicAPI getTopicAPI() {
+        return topicAPI;
     }
 }
