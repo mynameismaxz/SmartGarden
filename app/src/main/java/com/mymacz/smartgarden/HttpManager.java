@@ -11,6 +11,7 @@ public class HttpManager {
     private static HttpManager instance;
     private MicrogearAPI micApi;
     private TopicAPI topicAPI;
+    private TopicNodeMCU1 topicNodeMCU1;
 
     public static HttpManager getInstance() {
         if (instance == null)
@@ -33,6 +34,13 @@ public class HttpManager {
 
         topicAPI = topicCall.create(TopicAPI.class);
 
+        Retrofit topicMCU1 = new Retrofit.Builder()
+                .baseUrl("https://api.netpie.io/topic/KMUTTSmartGarden/nodemcu_1/sensor/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        topicNodeMCU1 = topicMCU1.create(TopicNodeMCU1.class);
+
     }
 
     public MicrogearAPI getMicApi() {
@@ -42,4 +50,9 @@ public class HttpManager {
     public TopicAPI getTopicAPI() {
         return topicAPI;
     }
+
+    public TopicNodeMCU1 getTopicNodeMCU1() {
+        return topicNodeMCU1;
+    }
 }
+

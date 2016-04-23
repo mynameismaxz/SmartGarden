@@ -14,35 +14,82 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="SmartGarden By E-DOK-Tae"
+        android:text="SmartGarden"
         android:textSize="25sp" />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Status = ..."
-        android:textSize="20sp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/Header"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="30dp"
+        android:weightSum="2">
 
-    <Button
-        android:id="@+id/btnOn"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_below="@id/status"
-        android:layout_marginTop="40dp"
-        android:text="ON" />
+        <Button
+            android:id="@+id/btnWater1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water 1" />
 
-    <Button
-        android:id="@+id/btnOff"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_toRightOf="@id/btnOn"
-        android:layout_below="@id/status"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="60dp"
-        android:text="OFF" />
+        <TextView
+            android:id="@+id/tvStatusWater1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water 1"
+            android:layout_toRightOf="@id/btnWater1"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/btnWater2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnWater1"
+            android:text="Water 2" />
+
+        <TextView
+            android:id="@+id/tvStatusWater2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water 2"
+            android:layout_below="@id/tvStatusWater1"
+            android:layout_toRightOf="@id/btnWater2"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/btnWater3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnWater2"
+            android:text="Water 3" />
+
+        <TextView
+            android:id="@+id/tvStatusWater3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water 3"
+            android:layout_below="@id/tvStatusWater2"
+            android:layout_toRightOf="@id/btnWater3"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/btnFeeder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnWater3"
+            android:text="Feeder" />
+
+        <TextView
+            android:id="@+id/tvStatusFeeder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feeder Status"
+            android:layout_below="@id/tvStatusWater3"
+            android:layout_toRightOf="@id/btnFeeder"
+            android:layout_marginTop="25dp"
+            android:textSize="20sp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
