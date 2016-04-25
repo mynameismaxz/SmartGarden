@@ -1,5 +1,6 @@
 package com.mymacz.smartgarden;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,12 +28,127 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initInstances();
-        getMicrogearStatusWithTopic(tvStatusWater1,"nodemcu_1");
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initStatusUpdate();
+                handler.postDelayed(this, 1000);
+            }
+        }, 2000);
+
 
         btnWater1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CallMicrogearApi("ON","nodemcu_1");
+                CallMicrogearApi("water1_ON","nodemcu_1");
+            }
+        });
+
+        btnWater2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CallMicrogearApi("water2_ON","nodemcu_2");
+            }
+        });
+
+        btnWater3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CallMicrogearApi("water3_ON","nodemcu_3");
+            }
+        });
+
+        btnFeeder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CallMicrogearApi("feeder_ON","feeder");
+            }
+        });
+    }
+
+    private void initStatusUpdate() {
+        GetStatusWater1(tvStatusWater1);
+        GetStatusWater2(tvStatusWater2);
+        GetStatusWater3(tvStatusWater3);
+        GetStatusFeeder(tvStatusFeeder);
+    }
+
+
+    private void GetStatusWater1(final TextView tv) {
+        Call<List<TopicDao>> call = HttpManager.getInstance().getTopicAPI().GetSensor1Status();
+        call.enqueue(new Callback<List<TopicDao>>() {
+            @Override
+            public void onResponse(Call<List<TopicDao>> call, Response<List<TopicDao>> response) {
+                if (response.isSuccessful()) {
+                    tv.setText(response.body().get(0).getPayload());
+                } else {
+                    Log.d("ERROR", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TopicDao>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void GetStatusWater2(final TextView tv) {
+        Call<List<TopicDao>> call = HttpManager.getInstance().getTopicAPI().GetSensor2Status();
+        call.enqueue(new Callback<List<TopicDao>>() {
+            @Override
+            public void onResponse(Call<List<TopicDao>> call, Response<List<TopicDao>> response) {
+                if (response.isSuccessful()) {
+                    tv.setText(response.body().get(0).getPayload());
+                } else {
+                    Log.d("ERROR", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TopicDao>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void GetStatusWater3(final TextView tv) {
+        Call<List<TopicDao>> call = HttpManager.getInstance().getTopicAPI().GetSensor3Status();
+        call.enqueue(new Callback<List<TopicDao>>() {
+            @Override
+            public void onResponse(Call<List<TopicDao>> call, Response<List<TopicDao>> response) {
+                if (response.isSuccessful()) {
+                    tv.setText(response.body().get(0).getPayload());
+                } else {
+                    Log.d("ERROR", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TopicDao>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void GetStatusFeeder(final TextView tv) {
+        Call<List<TopicDao>> call = HttpManager.getInstance().getTopicAPI().GetFeederStatus();
+        call.enqueue(new Callback<List<TopicDao>>() {
+            @Override
+            public void onResponse(Call<List<TopicDao>> call, Response<List<TopicDao>> response) {
+                if (response.isSuccessful()) {
+                    tv.setText(response.body().get(0).getPayload());
+                } else {
+                    Log.d("ERROR", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TopicDao>> call, Throwable t) {
+
             }
         });
     }
@@ -49,45 +165,8 @@ public class MainActivity extends AppCompatActivity {
         tvStatusFeeder = (TextView) findViewById(R.id.tvStatusFeeder);
     }
 
-    private void getMicrogearStatusWithTopic(final TextView tv, String nodestatus) {
-        if (nodestatus.equals("nodemcu_1")){
-            Call<List<TopicDao>> call = HttpManager.getInstance().getTopicNodeMCU1().getTopicNodeMCU1();
-            call.enqueue(new Callback<List<TopicDao>>() {
-                @Override
-                public void onResponse(Call<List<TopicDao>> call, Response<List<TopicDao>> response) {
-                    if (response.isSuccessful()){
-                        tv.setText(response.body().get(0).getPayload());
-                    } else {
-                        Log.d("error",response.message());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<TopicDao>> call, Throwable t) {
-
-                }
-            });
-        }
-//        Call<List<TopicDao>> call = HttpManager.getInstance().getTopicAPI().GetGearStatus();
-//        call.enqueue(new Callback<List<TopicDao>>() {
-//            @Override
-//            public void onResponse(Call<List<TopicDao>> call, Response<List<TopicDao>> response) {
-//                if (response.isSuccessful()) {
-//                    Log.d("response", response.body().get(0).getPayload());
-//                    tv.setText("Status: " + response.body().get(0).getPayload());
-//                } else {
-//                    Log.d("Error", "error fetch data" + response.body());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<TopicDao>> call, Throwable t) {
-//                Log.d("Error", "error fetch data" + t.toString());
-//            }
-//        });
-    }
-
     private void CallMicrogearApi(String status,String gear) {
+
         RequestBody reqBody = RequestBody.create(MediaType.parse("text/plain"),status);
         if (gear.equals("nodemcu_1")){
             Call<MicrogearDao> call = HttpManager.getInstance().getMicApi().SendToGear2Controller(reqBody);
@@ -95,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<MicrogearDao> call, Response<MicrogearDao> response) {
                     if (response.isSuccessful()){
-                        Toast.makeText(MainActivity.this, "Water1 Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Water1 Success ON", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -106,28 +185,51 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        if (gear == String.valueOf("nodemcu_2")){
-            // TODO : Later for mcu 2
+        if (gear.equals("nodemcu_2")){
+            Call<MicrogearDao> call = HttpManager.getInstance().getMicApi().SendToGear1Controller(reqBody);
+            call.enqueue(new Callback<MicrogearDao>() {
+                @Override
+                public void onResponse(Call<MicrogearDao> call, Response<MicrogearDao> response) {
+                    if (response.isSuccessful()){
+                        Toast.makeText(MainActivity.this, "Water2 Status ON", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MicrogearDao> call, Throwable t) {
+
+                }
+            });
         }
 
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"),status);
-//        Call<MicrogearDao> call = HttpManager.getInstance().getMicApi().SendToGearController(requestBody);
-//        call.enqueue(new Callback<MicrogearDao>() {
-//            @Override
-//            public void onResponse(Call<MicrogearDao> call, Response<MicrogearDao> response) {
-//                if (response.isSuccessful()){
-//                    // if success
-//                    Toast.makeText(MainActivity.this, "PUT Successful", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    // if fail
-//                    Toast.makeText(MainActivity.this, "FUCK", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MicrogearDao> call, Throwable t) {
-//
-//            }
-//        });
+        if (gear.equals("nodemcu_3")){
+            Call<MicrogearDao> call = HttpManager.getInstance().getMicApi().SendToGear3Controller(reqBody);
+            call.enqueue(new Callback<MicrogearDao>() {
+                @Override
+                public void onResponse(Call<MicrogearDao> call, Response<MicrogearDao> response) {
+                    Toast.makeText(MainActivity.this, "Water3 Status ON", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<MicrogearDao> call, Throwable t) {
+
+                }
+            });
+        }
+
+        if (gear.equals("feeder")){
+            Call<MicrogearDao> call = HttpManager.getInstance().getMicApi().SendToGear1Controller(reqBody);
+            call.enqueue(new Callback<MicrogearDao>() {
+                @Override
+                public void onResponse(Call<MicrogearDao> call, Response<MicrogearDao> response) {
+                    Toast.makeText(MainActivity.this, "Feeder ON", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<MicrogearDao> call, Throwable t) {
+
+                }
+            });
+        }
     }
 }

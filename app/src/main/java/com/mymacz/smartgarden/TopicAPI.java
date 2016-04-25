@@ -12,9 +12,27 @@ import retrofit2.http.Headers;
 public interface TopicAPI {
 
     @Headers({
-            "Authorization: Basic MnkzSVBUMkNQTXpMWGZJOjZqMjhXYVpiemJtblY5ekZmZTBLVGVFUTg="
+            "Authorization: Basic VDIyc2diUHB6azhIQkEzOnBWR1RZNGRsZUpSWjFlcDdhV3RyN2dMNnk="
     })
-    @GET("light1")
-    Call<List<TopicDao>> GetGearStatus();
+    @GET("sensor1")
+    Call<List<TopicDao>> GetSensor1Status();
+
+    @Headers({
+            "Authorization: Basic VDIyc2diUHB6azhIQkEzOnBWR1RZNGRsZUpSWjFlcDdhV3RyN2dMNnk="
+    })
+    @GET("sensor2")
+    Call<List<TopicDao>> GetSensor2Status();
+
+    @Headers({
+            "Authorization: Basic VDIyc2diUHB6azhIQkEzOnBWR1RZNGRsZUpSWjFlcDdhV3RyN2dMNnk="
+    })
+    @GET("sensor3")
+    Call<List<TopicDao>> GetSensor3Status();
+
+    @Headers({
+            "Authorization: Basic VDIyc2diUHB6azhIQkEzOnBWR1RZNGRsZUpSWjFlcDdhV3RyN2dMNnk="
+    })
+    @GET("feeder")
+    Call<List<TopicDao>> GetFeederStatus();
 
 }
